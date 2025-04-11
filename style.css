@@ -1,6 +1,114 @@
+html {
+    --color-accent: oklch(65% 50% 240);
+    accent-color: var(--color-accent);
+}
+
+.projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+    column-gap: 1rem;
+}
+
+.projects article {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    gap: .5em
+}
+
+.projects h2 {
+    margin: 0
+}
+
+h1,h2,h3,h4,h5,h6 {
+    line-height:1.1;
+}
+h1 {
+    font-size: 3rem;
+}
+h2 {
+    font-size: 1.5rem;
+}
+
 body {
-    /* Set line height to 1.5 times the font size
-	   and use the OS’s UI font as the website font
-	 */
     font: 100%/1.5 system-ui;
+    max-width: 100ch;
+    padding: 5ch;
+    margin-inline: auto;
+}
+
+nav ul,nav li {
+    display: contents;
+}
+
+nav {
+    display: flex;
+    margin-bottom: 1ch;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: oklch(80% 3% 200)
+}
+
+nav a {
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
+    padding: 0.5em
+}
+
+nav a.current {
+    border-bottom-width: 0.4em;
+    border-bottom-style: solid;
+    border-bottom-color: oklch(80% 3% 200);
+    padding-bottom: 0.2em
+}
+
+nav a:hover {
+    border-bottom: 0.4em;
+    border-bottom-style :solid;
+    border-bottom-color: var(--color-accent);
+    padding-bottom: 0.2em
+}
+
+form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1em;
+}
+
+form label {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+}
+
+form input {
+    font: inherit;
+}
+
+form textarea {
+    font: inherit;
+}
+
+form button{
+    font: inherit;
+    grid-column: 2 / -1;
+}
+
+.skills-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.skills-container ul {
+    flex: 1;
+    min-width: 180px;
+    list-style-type: disc;
+    padding-left: 1rem;
+}
+
+.skills-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
 }
