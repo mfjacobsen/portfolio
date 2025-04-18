@@ -1,6 +1,7 @@
 html {
     --color-accent: oklch(65% 50% 240);
     accent-color: var(--color-accent);
+    color-scheme: light dark
 }
 
 .projects {
@@ -42,11 +43,12 @@ nav ul,nav li {
 }
 
 nav {
+    --border-color: oklch(50% 10% 200 / 40%);
     display: flex;
     margin-bottom: 1ch;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: oklch(80% 3% 200)
+    border-bottom-color: var(--border-color)
 }
 
 nav a {
@@ -60,14 +62,14 @@ nav a {
 nav a.current {
     border-bottom-width: 0.4em;
     border-bottom-style: solid;
-    border-bottom-color: oklch(80% 3% 200);
+    border-bottom-color: var(--border-color);
     padding-bottom: 0.2em
 }
 
 nav a:hover {
     border-bottom: 0.4em;
     border-bottom-style :solid;
-    border-bottom-color: var(--color-accent);
+    border-bottom-color: var(--border-color);
     padding-bottom: 0.2em
 }
 
@@ -111,4 +113,12 @@ form button{
 .skills-section h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
+}
+
+label.color-scheme {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 80%;
+    font-family: inherit;
 }
