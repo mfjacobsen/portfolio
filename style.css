@@ -171,3 +171,41 @@ label.color-scheme {
     object-fit: cover;
     border-radius: 8px;
 }
+
+#projects-pie-plot {
+    max-width: 20em;
+    margin-block: 2em;
+    overflow: visible;
+}
+
+.pie-container {
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+
+.legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9em, max-content));
+    gap: 0.75em 1.5em;
+    padding: 1em;
+    margin-top: 1em;
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+    background: #fafafa;
+    max-width: 100%;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.legend .swatch {
+    display: inline-block;
+    width: 1em;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color);
+    border-radius: 0.25em;
+}
