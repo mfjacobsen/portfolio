@@ -17,32 +17,78 @@ let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
 
 let colors = d3.scaleOrdinal(d3.schemeTableau10);
 
-let data = [
-    { value: 1, label: 'apples' },
-    { value: 2, label: 'oranges' },
-    { value: 3, label: 'mangos' },
-    { value: 4, label: 'pears' },
-    { value: 5, label: 'limes' },
-    { value: 5, label: 'cherries' },
-];
+let selectedIndex = -1;
+const highlightColor = 'oklch(60% 45% 0)';
 
-let sliceGenerator = d3.pie().value((d) => d.value);
+function renderPieChart(projectsGiven) {
+    // Recompute rolled data
+    let newRolledData = d3.rollups(
+        projectsGiven,
+        (v) => v.length,
+        (d) => d.year
+    );
 
-let arcData = sliceGenerator(data);
-let arcs = arcData.map((d) => arcGenerator(d));
+    let newData = newRolledData.map(([year, count]) => ({
+        value: count,
+        label: year
+    }));
 
-arcs.forEach((arc, idx) => {
-    d3.select('svg')
-        .append('path')
-        .attr('d', arc)
-        .attr("fill", colors(idx)) 
-})
+    let newArcData = d3.pie().value((d) => d.value)(newData);
+    let newArcs = newArcData.map((d) => arcGenerator(d));
 
-let legend = d3.select('.legend');
-data.forEach((d, idx) => {
-    legend
-        .append('li')
-        .attr('class', 'legend-item')
-        .attr('style', `--color:${colors(idx)}`)
-        .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+    // Clear old arcs
+    let svg = d3.select('svg');
+    svg.selectAll('path').remove();
+
+    // Add arcs with click and class handling
+    newArcs.forEach((arc, i) => {
+        svg.append('path')
+            .attr('d', arc)
+            .attr('fill', i === selectedIndex ? highlightColor : colors(i))
+            .attr('class', i === selectedIndex ? 'selected' : null)
+            .on('click', () => {
+                selectedIndex = selectedIndex === i ? -1 : i;
+
+                // Filter project data and render it
+                if (selectedIndex === -1) {
+                    renderProjects(projects, projectsContainer, 'h2');
+                } else {
+                    const selectedLabel = newData[selectedIndex].label;
+                    const filtered = projects.filter(p => p.year === selectedLabel);
+                    renderProjects(filtered, projectsContainer, 'h2');
+                }
+
+                renderPieChart(projectsGiven); // Re-render chart + legend
+            });
+    });
+
+    // Clear and render legend
+    let legend = d3.select('.legend');
+    legend.selectAll('li').remove();
+
+    newData.forEach((d, i) => {
+        legend.append('li')
+            .attr('class', i === selectedIndex ? 'legend-item selected' : 'legend-item')
+            .attr('style', `--color:${colors(i)}`)
+            .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
+    });
+}
+
+// Call this function on page load
+renderPieChart(projects);
+
+let query = '';
+let searchInput = document.querySelector('.searchBar');
+searchInput.addEventListener('change', (event) => {
+    // update query value
+    query = event.target.value;
+    // filter projects
+    let filteredProjects = projects.filter((project) => {
+        let values = Object.values(project).join('\n').toLowerCase();
+        return values.includes(query.toLowerCase());
+    });
+    // render filtered projects
+    renderProjects(filteredProjects, projectsContainer, 'h2');
+    renderPieChart(filteredProjects);
 });
+
