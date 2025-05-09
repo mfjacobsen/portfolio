@@ -65,7 +65,6 @@ let pages = [
     { url: 'contact/', title: 'Contact' },
     { url: 'meta/', title: 'Meta'},
     { url: 'https://github.com/mfjacobsen', title: 'GitHub' }
-
 ]
 
 let nav = document.createElement('nav');
